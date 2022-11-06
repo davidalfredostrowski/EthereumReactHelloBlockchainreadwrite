@@ -12,112 +12,44 @@ import './App.css';
 
 class SimpleStorage extends Component {
 
-//	const [currentContractVal, setCurrentContractVal] = useState(null);
-
-
-	componentWillMount(){
-//		this.loadWeb3()
-		this.loadBlockchainData()
-        }
+    componentWillMount(){
+        this.loadBlockchainData()
+    }
  
-async loadWeb3(){ 
-	if (window.ethereum) { 
-		window.web3 = new Web3(window.ethereum)
-		await window.ethereum.enable()
-	window.alert('my window is connected!!!');
+    async loadBlockchainData(){
+         const web3 = new Web3(window.web3.currentProvider);
+         //. if (!web3.currentProvider){
+         // works!!!!!        const web3 = new Web3(new Web3.providers.HttpProvider("http://ec2-35-87-194-231.us-west-2.compute.amazonaws.com:8545"))
+         // }//
+	 this.setState( { web3 } )
+         var account;
+         const accounts  = await web3.eth.getAccounts()
+	 console.log(accounts)
+	     web3.eth.getAccounts().then((f) => {
+             account = f[0];
+         })
+	 console.log("account")
+	 console.log(account)
+	 console.log(accounts[0])
 
-			window.ethereum.request({ method: 'eth_requestAccounts'})
-			.then(result => {
-//				accountChangedHandler(result[0]);
-//				setConnButtonText('Wallet Connected');
-		window.alert('my wallet is connected');
-
-
-
-			})
-//			.catch(error => {
-//				setErrorMessage(error.message);
-//			
-//			});
-
-
-	}
-	else if (window.web3) { 
-		window.web3 = new Web3(window.web3.currentProvider.enable())
-	}
-	else { 
-		window.alert('non-ethereum browser detected - you should consider trying MetaMask!')
-	}
-}
-
-async loadBlockchainData(){
-
-  // if (typeof web3 !== 'undefined') {
-      const web3 = new Web3(window.web3.currentProvider);
-//	console.log("current provider" + web3.Provider);
-//	  }
-  //. if (!web3.currentProvider){
-    // works!!!!!        const web3 = new Web3(new Web3.providers.HttpProvider("http://ec2-35-87-194-231.us-west-2.compute.amazonaws.com:8545"))
-  // }//
-	    this.setState( { web3 } )
-            var account;
-		
-            const accounts  = await web3.eth.getAccounts()
-	    console.log(accounts)
-
-
-		web3.eth.getAccounts().then((f) => {
-                        account = f[0];
-            })
-	    console.log("account")
-	    console.log(account)
-	    console.log(accounts[0])
-
-	//just copy the json file to the src directory
-
-                const networkId = await web3.eth.net.getId();
-		console.log("networkId9");
-
-		console.log(networkId);
-     // const deployedNetwork = votingArtifact.networks[networkId];
-
-
-	this.setState( { account : accounts[0] }) 
-	console.log(account);
-
-		let jsonData = require('./SimpleStorage.json');
-
-                var networkKey =  Object.keys(jsonData['networks'])[Object.keys(jsonData.networks).length-1] 
-		console.log(networkKey)	
-		console.log(jsonData['networks'][networkKey]["address"] )
-		
-		console.log("get ID based solution")
-		console.log(networkId)
-		// error ? copy over the updated Voting.json from bulid/contract
-		console.log(jsonData['networks'][networkId]["address"] )
-
-		//const contract = new web3.eth.Contract(VOTING_ABI);
-                const contract = new web3.eth.Contract(jsonData.abi); 
-		contract.options.address = jsonData['networks'][networkId]["address"]
-		this.setState( { contract }) 
-
-console.log("beforeix ");
-   
-
-
-	contract.methods.set('just a test').send({ from: this.state.account });
-
-      //  contract.methods.set('just a test');
-
-
-
-	console.log("afterxxxxx");
-
-
-
-
-
-
+         //just copy the json file to the src directory
+         const networkId = await web3.eth.net.getId();
+         console.log(networkId);
+         // const deployedNetwork = votingArtifact.networks[networkId];
+	 this.setState( { account : accounts[0] }) 
+	 console.log(account);
+         let jsonData = require('./SimpleStorage.json');
+         var networkKey =  Object.keys(jsonData['networks'])[Object.keys(jsonData.networks).length-1] 
+         console.log(networkKey)	
+         console.log(jsonData['networks'][networkKey]["address"] )
+         console.log("get ID based solution")
+         console.log(networkId)
+         // error ? copy over the updated Voting.json from bulid/contract
+         console.log(jsonData['networks'][networkId]["address"] )
+         //const contract = new web3.eth.Contract(VOTING_ABI);
+         const contract = new web3.eth.Contract(jsonData.abi); 
+         contract.options.address = jsonData['networks'][networkId]["address"]
+         this.setState( { contract }) 
 	}
 
   constructor(props){
@@ -131,46 +63,24 @@ console.log("beforeix ");
 		}
   }
 
-
-
-	 setHandler = (event) => {
+     setHandler = (event) => {
 		event.preventDefault();
 		console.log('sending ' + event.target.setText.value + ' to the contract');
 		this.state.contract.methods.set(event.target.setText.value).send({ from: this.state.account });
 	}
 
 	 getCurrentVal = async () => {
-
-//	const [currentContractVal, setCurrentContractVal] = useState(null);
-
-
-		 console.log("before");
- // this works     this.state.contract.methods.set("xxx").send({ from: this.state.account });
-console.log("after");
-
 		 let val = await this.state.contract.methods.get().call(console.log);
-	
-
         this.setState( { message : val })
-
-		 console.log(val)
+// not good		 console.log(val)
 	 	}
 	
-
-
-
-
-
 render(){	
 
 	return (
 		<div>
 
 		<h5>message output: {this.state.message}</h5>
-      <button onClick={this.getCurrentVal} style={{marginTop: '5em'}}> Get Current Contract Value </button>
-      <button onClick={this.getCurrentVal} style={{marginTop: '5em'}}> Get Current Contract Value </button>
-
-
 		<h4> {"Get/Set Contract interaction"} </h4>
 			<form onSubmit={this.setHandler}>
 				<input id="setText" type="text"/>
