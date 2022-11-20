@@ -865,10 +865,50 @@
       "links": {},
       "address": "0xb4c9a6f75Fb64cd6078269f081b7378345416380",
       "transactionHash": "0xb9ba86f7278314fbce44c0dbb319338d1be1b0ad385f1fd9438523c8ed335241"
+    },
+    "1668910158389": {
+      "events": {
+        "0x319b9e64f64b033d6b8102f9688735cefac53d266b6e85d21cf85e9856fc7b99": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "eventOutput",
+              "type": "string"
+            }
+          ],
+          "name": "myEventTest",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x785b1d2f02997CD59201c57d19fC6E04074fcD7f",
+      "transactionHash": "0xfe3a87e35f140c631518dcd538d1ea43041e3dd5d160b280d23da319a8ba87c1"
+    },
+    "1668912635542": {
+      "events": {
+        "0x319b9e64f64b033d6b8102f9688735cefac53d266b6e85d21cf85e9856fc7b99": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "string",
+              "name": "eventOutput",
+              "type": "string"
+            }
+          ],
+          "name": "myEventTest",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xb796630936677C9740a1d658054f7ccB12f0d6e2",
+      "transactionHash": "0xb2424cf3e1a8d70661fa4d84fb96346ddcd2008c352dc95cc6c9f7d74610167c"
     }
   },
   "schemaVersion": "3.2.3",
-  "updatedAt": "2022-11-06T21:06:55.727Z",
+  "updatedAt": "2022-11-20T02:51:17.046Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
